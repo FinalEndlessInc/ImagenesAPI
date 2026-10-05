@@ -21,11 +21,13 @@ const server = http.createServer((request, response) => {
             });
             request.on("end", () => {
 
-                var imagen_sin_prefijo = informacion.replace("data:image/png;base64,", "");
+                const objeto_imagen = JSON.parse(informacion);
+                console.log(objeto_imagen);
 
+                var imagen_sin_prefijo = objeto_imagen.imagen.replace("data:"+ objeto_imagen.tipo +";base64,", "");
                 var imagen_binario = Buffer.from(imagen_sin_prefijo, "base64");
 
-                fs.writeFile("./img/Robo-Tito.png", imagen_binario, err => {
+                fs.writeFile("./img/"+ objeto_imagen.nombre, imagen_binario, err => {
                     if(err){
                         console.log(err);
                     }else{
